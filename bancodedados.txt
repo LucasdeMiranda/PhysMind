@@ -1,0 +1,60 @@
+User(padrao)
+Profile
+- id
+- user (FK → User)
+- tipo_usuario (aluno | profissional)
+- sexo
+- altura_cm
+- cintura_cm
+- pescoco_cm
+- objetivo (cut | bulk | manutenção)
+
+
+ProfissionalAluno
+- id
+- profissional (FK → User)
+- aluno (FK → User)
+- data_inicio
+- ativo
+
+
+AlimentoBase
+- id
+- nome
+- kcal_100g
+- proteina_100g
+- carbo_100g
+- gordura_100g
+- gordura_saturada_100g (opcional)
+- fibra_100g (opcional)
+- sodio_mg_100g (opcional)
+ 
+AlimentoCustom
+- id
+- user (FK → User)
+- nome
+- kcal_100g
+- proteina_100g
+- carbo_100g
+- gordura_100g
+- gordura_saturada_100g (opcional)
+- fibra_100g (opcional)
+
+Dieta
+- id
+- user (FK → User)
+- calorias_meta
+- proteina_meta
+- carbo_meta
+- gordura_meta
+- ativa
+- criada_em
+
+ConsumoAlimento
+- id
+- user (FK → User)
+- dieta (FK → Dieta)
+- alimento_base (FK → AlimentoBase, opcional)
+- alimento_custom (FK → AlimentoCustom, opcional)
+- quantidade_g
+- data

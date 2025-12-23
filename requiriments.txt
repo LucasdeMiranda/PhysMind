@@ -1,0 +1,2 @@
+djangorestframework==3.16.1
+dotenv==1.2.1
