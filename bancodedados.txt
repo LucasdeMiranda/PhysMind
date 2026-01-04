@@ -24,8 +24,7 @@ AlimentoBase
 - kcal_100g
 - proteina_100g
 - carbo_100g
-- gordura_100g
-- gordura_saturada_100g (opcional)
+-colesterol
 - fibra_100g (opcional)
 - sodio_mg_100g (opcional)
  

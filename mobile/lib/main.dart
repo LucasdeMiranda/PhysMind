@@ -1,17 +1,21 @@
 import 'package:flutter/material.dart';
+import 'pages/login.dart';
+import 'services/logingoogle.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(MyApp());
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+   MyApp({super.key});
+   
 
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,// tira aquela faixa de debug 
+      title: 'Physmind',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -28,7 +32,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: .fromSeed(
+          seedColor: const Color.fromARGB(255, 48, 13, 186),
+        ),
       ),
       home: const MyHomePage(title: 'Physmind'),
     );
@@ -37,6 +43,7 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+   
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -54,19 +61,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
-
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
-
+  final Googlelogin _logingoogle = Googlelogin();
   @override
   Widget build(BuildContext context) {
     // This method is rerun every time setState is called, for instance as done
@@ -85,37 +80,82 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        color: Theme.of(context).colorScheme.primary,
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: .center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Text('You have pushed the button this many times:'),
+            // Nome do app
             Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headlineMedium,
+              'Physmind',
+              style: Theme.of(context).textTheme.headlineLarge?.copyWith(
+                color: Colors.white,
+                fontWeight: FontWeight.bold,
+              ),
+            ),
+
+            const SizedBox(height: 50),
+            // Botão Fazer Login
+            SizedBox(
+              width: 220,
+              height: 48,
+              child: ElevatedButton(
+                onPressed: () {
+                  Navigator.push(context,
+                  MaterialPageRoute(builder: (context)=>Login(),)//leva pra tela de login
+                  );
+                },
+                child: const Text('Fazer login'),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+
+            // Botão Já tenho login
+            SizedBox(
+              width: 220,
+              height: 48,
+              child: OutlinedButton(
+                onPressed: () {
+                  Navigator.push(context, MaterialPageRoute(builder: (context)=>Login())
+                  );
+                },
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.white),
+                  foregroundColor: Colors.white,
+                ),
+                child: const Text('Já tenho login'),
+              ),
+            ),
+
+            const SizedBox(height: 16),
+            SizedBox(
+              width: 220,
+              height: 48,
+              child: OutlinedButton.icon(
+                onPressed: () async {
+                  final usuario = await _logingoogle.signIn();
+                  if (usuario != null) {
+                    print(usuario.displayName);
+                    print(usuario.email);
+                  }
+                },
+                icon: const Icon(
+                  Icons.g_mobiledata,
+                  size: 32,
+                  color: Colors.white,
+                ),
+                label: const Text('Continuar com Google'),
+                style: OutlinedButton.styleFrom(
+                  side: const BorderSide(color: Colors.white),
+                  foregroundColor: Colors.white,
+                ),
+              ),
             ),
           ],
         ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
       ),
     );
   }

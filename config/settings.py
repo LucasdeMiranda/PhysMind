@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure--j4k0f287!g2q%6oyft)gvllfv+u9y-0-72&i@8a4zld#b11!!
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'alimentos',
     'dieta',
     'usuarios',
-    'ajusteinteligente'
+    'ajusteinteligente',
+    'import_export',
+    'rest_framework',
     
 ]
 
