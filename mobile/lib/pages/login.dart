@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../services/autenticacao_service.dart';
+import '../pages/home.dart';
 
 
 class Login extends StatelessWidget {
@@ -41,11 +42,9 @@ class Login extends StatelessWidget {
             width:double.infinity,
             height: 48,
             child: ElevatedButton(onPressed:() async{
-              print('BOTÃO CLICADO');//debug com print
               final erro= await _autenticacaoService.cadastrar(email.text, senha.text);
               if (erro==null){
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content:Text('Usuario cadastrado com sucesso')));
-                //Navigator.pop(context);
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Home()),);
               }
               else {
                  ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(erro)));

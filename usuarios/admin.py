@@ -1,6 +1,6 @@
 from django.contrib import admin
 from .models import Perfil
-from .models import ProfissinalAluno
+from .models import ProfissionalAluno
 from import_export.admin import ImportExportModelAdmin
 from django.contrib.auth.models import User
 
@@ -10,7 +10,7 @@ class PerfilAdmin(ImportExportModelAdmin):
     list_filter=('tipo_usuario','sexo',)
     search_fields=('usuario__username','usuario__email',)
 
-@admin.register(ProfissinalAluno)
+@admin.register(ProfissionalAluno)
 class ProfissionalAlunoAdmin(ImportExportModelAdmin):
     list_display=('profissional','aluno','data','ativo')
     list_filter=('ativo',)

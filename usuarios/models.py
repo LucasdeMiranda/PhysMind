@@ -17,9 +17,9 @@ class Perfil(models.Model):
      def __str__(self):
       return f"{self.usuario.username} ({self.tipo_usuario})"
   
-class ProfissinalAluno(models.Model):
+class ProfissionalAluno(models.Model):
     profissional=models.ForeignKey(User,on_delete=models.CASCADE,related_name='alunos')#pode ver todos os alunos que stão cadastrados com o profissional
-    aluno=models.ForeignKey(User,on_delete=models.CASCADE,related_name='profissionais')#todos os profissionais que estão cadastrados a ele
+    aluno=models.ForeignKey(User,on_delete=models.CASCADE,related_name='vinculo_profissional')#todos os profissionais que estão cadastrados a ele
     data=models.DateTimeField(auto_now_add=True)#data de inicio
     ativo=models.BooleanField(default=True)#se está ativo ou não o aluno
     class Meta:

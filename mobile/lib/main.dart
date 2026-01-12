@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
         colorScheme: .fromSeed(
-          seedColor: const Color.fromARGB(255, 48, 13, 186),
+          seedColor: const Color.fromARGB(255, 48, 25, 137),
         ),
       ),
       home: const MyHomePage(title: 'Physmind'),
@@ -103,7 +103,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 48,
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.push(context,
+                  Navigator.push(context,// se usa push ele empilha uma nova tela então da pra voltar para a anterior (pilha)
                   MaterialPageRoute(builder: (context)=>Login(),)//leva pra tela de login
                   );
                 },
