@@ -16,9 +16,28 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
- 
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
+from  usuarios.views import CriaUsuario
+schema_view = get_schema_view(
+    openapi.Info( #nem sei que isso tenho que ver 
+        title="PhysMind API",
+        default_version='v1',
+        description="API do app de dieta e treino",
+    ),
+    public=True,
+    permission_classes=(permissions.AllowAny,),
+)
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('api/', include('usuarios.urls')),
+    path('api/', include('usuarios.urls')),#ja inclui todos os endpoint de usuarios
+     path(
+        'swagger/',
+        schema_view.with_ui('swagger', cache_timeout=0),
+        name='schema-swagger-ui'
+    ),
+      
+    
 ]

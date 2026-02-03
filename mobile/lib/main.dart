@@ -32,9 +32,9 @@ class MyApp extends StatelessWidget {
         //
         // This works for code too, not just values: Most code changes can be
         // tested with just a hot reload.
-        colorScheme: .fromSeed(
-          seedColor: const Color.fromARGB(255, 48, 25, 137),
-        ),
+         useMaterial3: true,
+         colorScheme: ColorScheme.fromSeed(seedColor: const Color.fromARGB(255, 56, 163, 240),brightness: Brightness.light,),// define a cor 
+         scaffoldBackgroundColor: const Color.fromARGB(255, 56, 163, 240),
       ),
       home: const MyHomePage(title: 'Physmind'),
     );
@@ -83,7 +83,6 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        color: Theme.of(context).colorScheme.primary,
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [

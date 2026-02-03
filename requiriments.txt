@@ -2,3 +2,5 @@ djangorestframework==3.16.1
 dotenv==1.2.1
 django-import-export==4.3.14
 pandas==2.3.3
+djangoorestframework-simplejwt==5.5.1
+drf-yasg==1.21.14

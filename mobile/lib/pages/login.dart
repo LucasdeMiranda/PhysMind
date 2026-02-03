@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import '../services/autenticacao_service.dart';
-import '../pages/home.dart';
-
+import 'homeusuariocomum.dart';
+import '../pages/informacoesbasicas.dart';
+import '../pages/homeprofissional.dart';
 
 class Login extends StatelessWidget {
   Login({super.key});
@@ -42,13 +43,21 @@ class Login extends StatelessWidget {
             width:double.infinity,
             height: 48,
             child: ElevatedButton(onPressed:() async{
-              final erro= await _autenticacaoService.cadastrar(email.text, senha.text);
-              if (erro==null){
-                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => const Home()),);
+              try{
+              final autenticacao= await _autenticacaoService.cadastrar(email.text, senha.text);
+              if (autenticacao.status=='novo'){
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Informacoesbasicas()),);//perfil novo precisa cadastrar
               }
-              else {
-                 ScaffoldMessenger.of(context).showSnackBar(SnackBar(content:Text(erro)));
+              else if (autenticacao.status=='existente' &&autenticacao.tipoUsuario=='aluno'){
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);//usuário comum 
               }
+              else if (autenticacao.status=='existente' &&autenticacao.tipoUsuario=='profissional'){
+                 Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Homeprofissional()),);//profissional 
+              }
+              }
+               catch(e){
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(content: Text(e.toString())),);
+               }
 
             },
             child: const Text('Entrar'),),
