@@ -57,7 +57,38 @@ class PerfilAutenticado(APIView):
             'username':request.user.username,
         })
 
-class  AcessarPerfil(APIView):
+class ObtemPerfil(APIView):
+    permission_classes = [IsAuthenticated]
+    def get(self,request):
+        perfil=Perfil.objects.get(usuario=request.user)
+        return Response({
+            'nome': perfil.nome,
+            'idade': perfil.idade,
+            'altura': perfil.altura,
+            'sexo': perfil.sexo,
+            'tipo_usuario': perfil.tipo_usuario,
+            'objetivo': perfil.objetivo,
+            'cintura': perfil.cintura,
+            'pescoco': perfil.pescoco,
+        })
+    
+    def patch(self,request):
+       perfil=ObtemPerfil.objects.get(usuario=request.user)
+       CAMPOS_PERMITIDOS = [
+        'nome', 'idade', 'altura', 'sexo',
+        'tipo_usuario', 'objetivo',
+        'cintura', 'pescoco'
+    ]
+
+       for campo, valor in request.data.items():
+            if campo in CAMPOS_PERMITIDOS:
+                setattr(perfil, campo, valor)
+
+   
+    
+
+
+        
     
         
         

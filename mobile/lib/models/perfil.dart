@@ -1,9 +1,10 @@
-class Usuario {
+class Perfil {
   String nome='',objetivo='',tipousuario='',sexo='';
   int idade=0,altura=0;
   double cintura=0.0,pescoco=0.0;
+  Perfil();
 
-  Usuario.fromJson(Map<String,dynamic> json){
+  Perfil.fromJson(Map<String,dynamic> json){
     nome=json['nome']??'';
     idade = json['idade'] ?? 0;
     tipousuario = json['tipo_usuario'] ?? '';
@@ -16,7 +17,7 @@ class Usuario {
     Map<String, dynamic> toJson() {
     return {
       'nome': nome,
-      'idade': idade,
+      'idade': idade,  
       'altura': altura,
       'tipo_usuario': tipousuario,
       'sexo': sexo,
