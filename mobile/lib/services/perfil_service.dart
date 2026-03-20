@@ -4,7 +4,7 @@ import '../models/perfil.dart';
 import 'armazenamento_token.dart';
 
 class PerfilService {
-  static const String baseurl='http://192.168.0.103:8000/api';
+  static const String baseurl= 'http://127.0.0.1:8000/api';//'http://192.168.0.103:8000/api';
   Future<Perfil> buscarPerfil() async{
   final token= await ArmazenamentoToken.getAcesso();
   final resposta=await http.get(

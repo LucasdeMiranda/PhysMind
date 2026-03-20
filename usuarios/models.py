@@ -2,9 +2,10 @@ from django.db import models
 from django.contrib.auth.models import User # importa a classe prnta do user
 
 class Perfil(models.Model):
-     tipousuario=(('aluno','Aluno'),('profissional','Profissional'))
+     tipousuario=(('aluno','Aluno'),('profissional','Profissional'),('usuario_comum','Usuário Comum'))
      escolhaobjetivo=(('cutting','Cutting'),('bulking','Bulking'),('manutenção','Manutenção'))#nome que o usuario vai ver e o nome que vai ficar salvo no banco respectivamente
      escolhasexo=(('f','Feminino'),('m','Masculino'))#primeiro o que o banca grava o segundo o que o usuario vê
+     nivelatividade=(('sedentario','Sedentário'),('moderado','Moderado'),('intenso','Intenso'),('leve','Leve'))
      usuario=models.OneToOneField(User,on_delete=models.CASCADE)# se o usuario forn deletado deleta todos os vinculos
      nome=models.CharField(max_length=30)
      tipo_usuario=models.CharField(max_length=20,choices=tipousuario)
@@ -13,7 +14,8 @@ class Perfil(models.Model):
      cintura=models.IntegerField(blank=True, null=True)
      pescoco=models.IntegerField(blank=True, null=True)
      objetivo=models.CharField(max_length=20,choices=escolhaobjetivo,blank=True, null=True)
-     idade=models.IntegerField()
+     atividade=models.CharField(max_length=20,choices=nivelatividade,blank=True, null=True)
+     idade=models.IntegerField(blank=True, null=True)
      
      def __str__(self):
       return f"{self.usuario.username} ({self.tipo_usuario})"

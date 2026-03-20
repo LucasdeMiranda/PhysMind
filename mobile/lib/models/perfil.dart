@@ -1,5 +1,5 @@
 class Perfil {
-  String nome='',objetivo='',tipousuario='',sexo='';
+  String nome='',objetivo='',tipousuario='',sexo='', nivelatividadefisica='';
   int idade=0,altura=0;
   double cintura=0.0,pescoco=0.0;
   Perfil();
@@ -9,6 +9,7 @@ class Perfil {
     idade = json['idade'] ?? 0;
     tipousuario = json['tipo_usuario'] ?? '';
     sexo= json['sexo'];
+    nivelatividadefisica=json['atividade']??'';
     objetivo=json['objetivo'];
     cintura= json['cintura']?.toDouble();
     pescoco= json['pescoco']?.toDouble();
@@ -24,6 +25,7 @@ class Perfil {
       'objetivo': objetivo,
       'cintura': cintura,
       'pescoco': pescoco,
+      'atividade':nivelatividadefisica,
     }..removeWhere((key, value) => value == '' || value == 0 || value == 0.0,); // esse remove so manda o que foi prenchido 
   }
 }

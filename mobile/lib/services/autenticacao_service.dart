@@ -4,7 +4,7 @@ import '../models/autenticacaoresposta.dart';
 import 'armazenamento_token.dart';
 
 class AutenticacaoService {
-  static const String baseurl='http://192.168.0.103:8000/api';//ip do meu django necessario para acessar e validar 
+  static const String baseurl='http://127.0.0.1:8000/api';// esse é pra telefone fisico é o ip do notebook'http://192.168.0.103:8000/api';//ip do meu django necessario para acessar e validar 
   //static faz pertencer a classe toda não so o objeto
   //cost não muda
   Future<Autenticacaoresposta> cadastrar(String email, String senha) async{
@@ -20,10 +20,9 @@ class AutenticacaoService {
      final data = jsonDecode(resposta.body);//pra pegar o status se existe ou não
     if(resposta.statusCode==201 ||resposta.statusCode==200){
       final auth= Autenticacaoresposta.fromJson(data);
-
       await ArmazenamentoToken.salvar(acesso: auth.acesso, refresh: auth.refresh,);
       //return Autenticacaoresposta.fromJson(data);//cadastro correu certo (novo ou existente)
-      return auth;
+      return auth;//auth é usado para acessar o data que ja foi convertido em json 
     }
 
     else{

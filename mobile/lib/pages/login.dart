@@ -48,7 +48,7 @@ class Login extends StatelessWidget {
               if (autenticacao.status=='novo'){
                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) =>Informacoesbasicas()),);//perfil novo precisa cadastrar
               }
-              else if (autenticacao.status=='existente' &&autenticacao.tipoUsuario=='aluno'){
+              else if (autenticacao.status=='existente' &&autenticacao.tipoUsuario=='aluno' || autenticacao.status=='existente' &&autenticacao.tipoUsuario=='usuario_comum'){
                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);//usuário comum 
               }
               else if (autenticacao.status=='existente' &&autenticacao.tipoUsuario=='profissional'){

@@ -46,11 +46,13 @@ INSTALLED_APPS = [
     'import_export',
     'rest_framework',
     'drf_yasg',
+    'corsheaders',#serve para permitir que outros sites os app quando solicitar o navegador vai permitir o acesso aos dados backend ele permite isso
     
     
 ]
 
 MIDDLEWARE = [
+    'corsheaders.middleware.CorsMiddleware',#tem que ta no topo pois deve ser o primeiro a verificar se a origem da requisição é permitida
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -137,3 +139,21 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+
+SWAGGER_SETTINGS = {
+    'USE_SESSION_AUTH': False,
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'name': 'Authorization',
+            'in': 'header',
+            'description': 'Digite: Bearer <seu_token_aqui>'
+        }
+    }
+}
+CORS_ALLOW_ALL_ORIGINS = True #so pra desenvolvimento mesmo porque se não qualquer site consegui fazer requisição e conseguir dados
+#CORS_ALLOWED_ORIGINS = [
+    #"https://seu-app-flutter.web.app",
+    #"https://www.seusite.com.br",
+#]
+#assim que tem que ser
