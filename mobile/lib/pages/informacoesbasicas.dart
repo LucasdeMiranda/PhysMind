@@ -31,7 +31,7 @@ class Informacoesbasicas extends StatefulWidget {
 
       }
       //else{
-        //await _perfilService.atulizarPerfil(_perfil.toJson());
+        //await _perfilService.atualizarPerfil(_perfil.toJson());
          //Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);
          //tenho que direcionar pra home certa aqui TENHO QUE VER SE PRECISO DISSO DEPOIS 
       //}
@@ -45,7 +45,7 @@ class Informacoesbasicas extends StatefulWidget {
 
     Future<void> finalizar() async{// pra redirecionar pra home depois eu olho como faz 
      try{
-      await _perfilService.atulizarPerfil(_perfil.toJson());
+      await _perfilService.atualizarPerfil(_perfil.toJson());
       if (!mounted) return;//caso a pessoa feche a tela ou algo errado aconteça 
       if(_perfil.tipousuario=='aluno'){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);

@@ -33,6 +33,7 @@ schema_view = get_schema_view(
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('usuarios.urls')),#ja inclui todos os endpoint de usuarios
+    path('api/', include('dieta.urls')),#ja inclui todos os endpoint de dieta
      path(
         'swagger/',
         schema_view.with_ui('swagger', cache_timeout=0),
