@@ -8,9 +8,9 @@ class Perfil {
     nome=json['nome']??'';
     idade = json['idade'] ?? 0;
     tipousuario = json['tipo_usuario'] ?? '';
-    sexo= json['sexo'];
+    sexo= json['sexo']??'';
     nivelatividadefisica=json['atividade']??'';
-    objetivo=json['objetivo'];
+    objetivo=json['objetivo']??'';
     cintura= json['cintura']?.toDouble();
     pescoco= json['pescoco']?.toDouble();
   }

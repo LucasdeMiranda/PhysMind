@@ -43,11 +43,11 @@ class Informacoesbasicas extends StatefulWidget {
       }
     }
 
-    Future<void> finalizar() async{// pra redirecionar pra home depois eu olho como faz 
+    Future<void> finalizar() async{// pra redirecionar pra home depois eu olho como faz     c
      try{
       await _perfilService.atualizarPerfil(_perfil.toJson());
       if (!mounted) return;//caso a pessoa feche a tela ou algo errado aconteça 
-      if(_perfil.tipousuario=='aluno'){
+      if(_perfil.tipousuario=='aluno' || _perfil.tipousuario=='usuario_comum'){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);
       }
       else if(_perfil.tipousuario=='profissional'){
@@ -540,7 +540,7 @@ Widget build(BuildContext context) {
                     child: const Text('Voltar'),
                   ),
 
-                 if (_contadorPaginasPreenchidas() > 3)
+                 if (_contadorPaginasPreenchidas() >=3)
                  TextButton(onPressed:finalizar, child: const Text('Finalizar'),),
                  TextButton(onPressed:_paginaAtualPreenchida()?proximaPagina : null, child: const Text('Proximo')),
 

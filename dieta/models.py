@@ -24,13 +24,30 @@ class Dieta(models.Model):
             )
         ]
 
+class Refeicao(models.Model):
+    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    dieta = models.ForeignKey(Dieta, on_delete=models.CASCADE,related_name='refeicoes')
+    nome = models.CharField(max_length=50)  # "Café", "Almoço", etc
+    data = models.DateTimeField(auto_now_add=True)
+#quando voce faz algo tipo isso aqui  dieta = models.ForeignKey(Dieta, on_delete=models.CASCADE,related_name='refeicoes')
+#voce obetem refeicao.dieta e o contrario tambem dieta.refeicoes.all() é por isso que no serializer
+#no dieta tem o campo refeições porque já faz o inverso de forma autamtica e a partir de refeições
+#isso tambem vale pro consumo de alimento com o campo refeição
+#por isso no serializer pode usar o campo refeições ou itens sem "existir" esse campo no model por causa da engenharia reversa
+
+    def __str__(self):
+        return f"{self.nome} - {self.usuario.username}"
+
+
 class ConsumoAlimento(models.Model):
      usuario=models.ForeignKey(User,on_delete=models.CASCADE,related_name='consumos')#se for deletado deleta tudo o que tem 
      dieta=models.ForeignKey(Dieta,on_delete=models.CASCADE,related_name='consumos')
      alimentobase=models.ForeignKey(AlimentoBase,null=True,blank=True,on_delete=models.SET_NULL)
      alimentocustomizado=models.ForeignKey(AlimentoCustomizado,null=True,blank=True,on_delete=models.SET_NULL)
      quantidade=models.IntegerField()#em gramas
+     refeicao = models.ForeignKey(Refeicao, on_delete=models.CASCADE, related_name='itens',null=True,blank=True)
      data=models.DateTimeField(auto_now_add=True)
+     
      
      def __str__(self):
         if self.alimentobase:
