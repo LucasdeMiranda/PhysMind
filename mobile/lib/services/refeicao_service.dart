@@ -1,8 +1,9 @@
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../models/refeicao.dart';
+import '../models/consumoalimento.dart';
 import 'armazenamento_token.dart';
-// basicamente chamadas http para  em produção vamos usar https 
+// basicamente chamadas http para  em produção vamos usar https
 
 class RefeicaoService {
   static const String baseurl = 'http://127.0.0.1:8000/api';
@@ -14,8 +15,8 @@ class RefeicaoService {
     );
 
     if (resposta.statusCode == 200) {
-      final List data = jsonDecode(resposta.body);
-      return data.map((e) => Refeicao.fromJson(e)).toList();
+      final List lista = jsonDecode(resposta.body);
+      return lista.map((e) => Refeicao.fromJson(e)).toList();
     } else {
       throw Exception('Erro ao buscar refeição');
     }
@@ -46,5 +47,24 @@ class RefeicaoService {
     if (resposta.statusCode != 204) {
       throw Exception('Erro ao deletar refeição');
     }
+  }
+
+  Future<ConsumoAlimento> adicionarAlimento(ConsumoAlimento consumo) async {
+    final token = await ArmazenamentoToken.getAcesso();
+
+    final resposta = await http.post(
+      Uri.parse('$baseurl/consumos/'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(consumo.toJsonCriacao()),
+    );
+
+    if (resposta.statusCode == 201) {
+      return ConsumoAlimento.fromJson(jsonDecode(resposta.body));
+    }
+
+    throw Exception('Erro ao adicionar alimento');
   }
 }

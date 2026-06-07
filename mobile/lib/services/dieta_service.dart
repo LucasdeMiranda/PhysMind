@@ -5,8 +5,7 @@ import 'armazenamento_token.dart';
 
 //ctrl + alt permite umas coisas da hora
 class DietaService {
-  static const String baseurl =
-      'http://127.0.0.1:8000/api'; //'http://192.168.0.103:8000/api';
+  static const String baseurl ='http://127.0.0.1:8000/api'; //'http://192.168.0.103:8000/api';
   Future<Dieta> buscarDietaAtiva() async {
     final token = await ArmazenamentoToken.getAcesso();
     final resposta = await http.get(

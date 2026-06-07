@@ -26,7 +26,7 @@ class AutenticacaoService {
     }
 
     else{
-      throw Exception(data['erro'] ?? 'Erro desconhecido');
+      throw Exception(data['mensagem'] ?? 'Erro desconhecido');
 
     }
      
