@@ -69,6 +69,20 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
     );
   }
 
+  Widget _AdicionarRefeicao() {
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.grey[900],
+        borderRadius: BorderRadius.circular(16),
+        child: Text("Adicionar Refeição"),
+        Icon(Icons.add);
+      ),
+       
+    );
+  }
+
   // a partir daqui tem que ver
   double totalCarb(Refeicao ref) {
     return ref.itens.fold(0, (soma, item) => soma + (item.carboidratos ?? 0));
