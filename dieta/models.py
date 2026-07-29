@@ -11,7 +11,7 @@ class Dieta(models.Model):
      gordura=models.FloatField(blank=True, null=True)
      datacriacao=models.DateTimeField(auto_now_add=True)
      ativo=models.BooleanField(default=True)#isso aqui é pra pessoa poder ter varias dietas e poder alternar entre elas quando precisar sem precisar recalcular ou apenas editar
-     
+     nome = models.CharField(max_length=50, default="Minha dieta")
      def __str__(self):
           return f"{self.usuario.username}"
      
@@ -52,7 +52,12 @@ class ConsumoAlimento(models.Model):
      def __str__(self):
         if self.alimentobase:
           return f"{self.alimentobase.nome} ({self.quantidade}g)" 
-        return f"{self.alimentocustomizado.nome} ({self.quantidade}g)"
+        elif self.alimentocustomizado:
+         return f"{self.alimentocustomizado.nome} ({self.quantidade}g)"
+     
+        if not self.alimentobase and not self. alimentocustomizado:
+            return f"Consumo de alimento não especificado ({self.quantidade}g)"
+       
      
  
     

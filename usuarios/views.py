@@ -23,15 +23,14 @@ def gerar_token(user):
 class CriaUsuario(APIView):#para responder requisições http rest
     @swagger_auto_schema(request_body=CriaUsuarioSerializer)
     def post(self,request):
-        print("Dados brutos:", request.data)
+         
         serializer=CriaUsuarioSerializer(data=request.data)#usado para fazer o json virr algo valido no python e poder ser validádo
         if not serializer.is_valid():
               print("ERRO DE VALIDAÇÃO:", serializer.errors)
               return Response(
                 serializer.errors, status=400
             )
-        print("Dados validados:", serializer.validated_data)
-        print("Usuário não existe, criando novo usuário...")
+
         email = serializer.validated_data['email']
         senha = serializer.validated_data['senha']
               

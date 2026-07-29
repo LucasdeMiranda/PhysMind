@@ -7,12 +7,34 @@ import 'armazenamento_token.dart';
 
 class RefeicaoService {
   static const String baseurl = 'http://127.0.0.1:8000/api';
+ // dando erro 400 ver depois e depurar
+  Future<Refeicao> criaRefeicao(Map<String,dynamic> dados)async{
+    final token= await ArmazenamentoToken.getAcesso();
+    final resposta= await http.post(
+      Uri.parse('$baseurl/refeicoes/'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(dados),
+    );
+    if (resposta.statusCode == 201) {
+      return Refeicao.fromJson(jsonDecode(resposta.body));
+    }
+    if(resposta.statusCode==400){
+       print(" se entrou aqui ta o erro e como ta a resposta ${resposta.statusCode} - ${resposta.body}");
+    }
+    
+    throw Exception('Erro ao criar refeição');
+  }
   Future<List<Refeicao>> buscarRefeicao() async {
     final token = await ArmazenamentoToken.getAcesso();
     final resposta = await http.get(
       Uri.parse('$baseurl/refeicoes/'),
       headers: {'Authorization': 'Bearer $token'},
     );
+    print("STATUS: ${resposta.statusCode}");
+    print("BODY: ${resposta.body}");
 
     if (resposta.statusCode == 200) {
       final List lista = jsonDecode(resposta.body);

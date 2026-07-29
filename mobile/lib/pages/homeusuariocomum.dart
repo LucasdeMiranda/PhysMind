@@ -10,7 +10,7 @@ import '../services/alimento_service.dart';
 import '../pages/detalhealimento.dart';
 
 class Homeusuariocomum extends StatefulWidget {
-  //doi tipos de windget stateful que muda com o tempo e stateless que não muda
+  //dois tipos de windget stateful que muda com o tempo e stateless que não muda
   const Homeusuariocomum({super.key});
 
   @override
@@ -24,6 +24,8 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
   RefeicaoService _refeicaoService = RefeicaoService();
   AlimentoService _alimentoService = AlimentoService();
   Refeicao? refeicao;
+  bool criandoRefeicao = false;
+  final TextEditingController nomeController = TextEditingController();
 
   int consumido = 0;
   Future<void> carregarDieta() async {
@@ -74,12 +76,55 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
       margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: Colors.grey[900],
+        color: const Color.fromARGB(255, 139, 138, 138),
         borderRadius: BorderRadius.circular(16),
-        child: Text("Adicionar Refeição"),
-        Icon(Icons.add);
       ),
-       
+      child: Column(
+        children: [
+          Row(
+            children: [
+              const Text("Adicionar Refeição"),
+              IconButton(
+                icon: const Icon(Icons.add),
+                onPressed: () {
+                  setState(() {
+                    criandoRefeicao = !criandoRefeicao;
+                  });
+                },
+              ),
+            ],
+          ),
+          if (criandoRefeicao) ...[
+            const SizedBox(height: 12),
+            TextField(
+              controller: nomeController,
+              decoration: InputDecoration(
+                hintText: "Nome da refeição",
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+            ),
+               const SizedBox(height: 12),
+              ElevatedButton(
+                onPressed: () async {
+                  final nome = nomeController.text;
+                  if (nome.isNotEmpty) {
+                    final novaRefeicao = await _refeicaoService.criaRefeicao({
+                      'nome': nome,
+                    });
+                    setState(() {
+                      refeicoes.add(novaRefeicao);
+                      criandoRefeicao = false;
+                      nomeController.clear();
+                    });
+                  }
+                },
+                child: const Text("Criar Refeição"),
+            ),
+          ],
+        ],
+      ),
     );
   }
 
@@ -113,7 +158,7 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
           margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
           padding: const EdgeInsets.all(16),
           decoration: BoxDecoration(
-            color: Colors.grey[900],
+            color: const Color.fromARGB(255, 139, 138, 138),
             borderRadius: BorderRadius.circular(16),
           ),
           child: Column(
@@ -172,23 +217,18 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                         return ListTile(
                           title: Text(a.nome),
                           onTap: () async {
-                            final ConsumoAlimento? resultado = await Navigator.push<ConsumoAlimento>(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) =>
-                                    DetalheAlimento(alimento: a),
-                              ),
-                            );
-                            if (resultado != null) {
-                               resultado.refeicaoId = id;
-                               final novoConsumo =await _refeicaoService.adicionarAlimento(
-                               resultado
-                              );
-                              setLocalState(() {
-                                alimentos.add(
-                                   novoConsumo
+                            final ConsumoAlimento? resultado =
+                                await Navigator.push<ConsumoAlimento>(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        DetalheAlimento(alimento: a),
+                                  ),
                                 );
-                              });
+                            if (resultado != null) {
+                              resultado.refeicaoId = id;
+                               await _refeicaoService.adicionarAlimento(resultado);
+                              await carregarRefeicoes();
                             }
                           },
                         );
@@ -224,6 +264,7 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
       body: Column(
         children: [
           _Meta(context),
+          _AdicionarRefeicao(),
 
           Padding(
             padding: const EdgeInsets.all(16),

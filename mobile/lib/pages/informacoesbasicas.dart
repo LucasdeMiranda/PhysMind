@@ -3,6 +3,8 @@ import '../models/perfil.dart';
 import '../services/perfil_service.dart';
 import '../pages/homeusuariocomum.dart';
 import './homeprofissional.dart';
+import '../models/dieta.dart';
+import '../services/dieta_service.dart';
 
 
 /**
@@ -23,6 +25,8 @@ class Informacoesbasicas extends StatefulWidget {
     final Perfil _perfil=Perfil();
     int pagatual=0;
     int totalpaginas=9;
+    final DietaService _dietaService = DietaService();
+    final Dieta _dieta= Dieta( nome:"",calorias: 0, proteinas: 0.0, carboidratos: 0.0, gordura: 0.0);
 
 
     Future<void>  proximaPagina() async{
@@ -46,6 +50,7 @@ class Informacoesbasicas extends StatefulWidget {
     Future<void> finalizar() async{// pra redirecionar pra home depois eu olho como faz     c
      try{
       await _perfilService.atualizarPerfil(_perfil.toJson());
+      await _dietaService.criaDieta(_dieta.toJson());
       if (!mounted) return;//caso a pessoa feche a tela ou algo errado aconteça 
       if(_perfil.tipousuario=='aluno' || _perfil.tipousuario=='usuario_comum'){
         Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Homeusuariocomum()),);

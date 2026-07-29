@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from django.contrib.auth.models import User
 from .models import Dieta, Refeicao, ConsumoAlimento
+from rest_framework import status# codigs 200,201,400 etc
 
 
 class ConsumoAlimentoSerializer(serializers.ModelSerializer):
@@ -25,6 +26,22 @@ class ConsumoAlimentoSerializer(serializers.ModelSerializer):
             'refeicao',
         ]
         read_only_fields = ['nome', 'calorias', 'proteinas', 'carboidratos', 'gordura']
+    
+    def validate(self, attrs):
+        alimentobase = attrs.get("alimentobase")
+        alimentocustomizado = attrs.get("alimentocustomizado")
+
+        if not alimentobase and not alimentocustomizado:
+            raise serializers.ValidationError(
+                "É necessário informar um alimento base ou um alimento customizado."
+            )
+
+        if alimentobase and alimentocustomizado:
+            raise serializers.ValidationError(
+                "Informe apenas um alimento: base ou customizado."
+            )
+
+        return attrs
 
     def get_alimento(self, obj):
      return obj.alimentobase or obj.alimentocustomizado
@@ -33,26 +50,26 @@ class ConsumoAlimentoSerializer(serializers.ModelSerializer):
         alimento = self.get_alimento(obj)
         if not alimento:
             return 0
-        return (alimento.calorias * obj.quantidade) / 100
+        return round((alimento.calorias * obj.quantidade) / 100,1)
 
     def get_carboidratos(self,obj):
         alimento=self.get_alimento(obj)
         if not alimento:
             return 0
-        return (alimento.carboidratos * obj.quantidade) / 100
+        return round((alimento.carboidratos * obj.quantidade) / 100,1)
 
     def get_proteinas(self,obj):
         alimento=self.get_alimento(obj)
         if not alimento:
             return 0
-        return (alimento.proteinas * obj.quantidade) / 100
+        return round((alimento.proteinas * obj.quantidade) / 100,1)
 
     def get_gordura(self,obj):
         alimento=self.get_alimento(obj)
         if not alimento:
             return 0
         if alimento == obj.alimentocustomizado:
-         return (alimento.gordura * obj.quantidade) / 100
+         return round((alimento.gordura * obj.quantidade) / 100,1)
 
         else:
           return None
@@ -92,5 +109,6 @@ class DietaSerializer(serializers.ModelSerializer):
             'carboidratos',
             'gordura',
             'refeicoes',
+            'nome',
         ]
 

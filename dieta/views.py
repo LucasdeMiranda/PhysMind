@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
-from rest_framework.generics import RetrieveUpdateAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView
+from rest_framework.generics import RetrieveUpdateAPIView,ListCreateAPIView,RetrieveUpdateDestroyAPIView,CreateAPIView
 from .serializers import DietaSerializer,RefeicaoSerializer,ConsumoAlimentoSerializer
 from .models import Dieta,Refeicao,ConsumoAlimento
 from rest_framework.permissions import IsAuthenticated
@@ -23,6 +23,21 @@ class DietaView(RetrieveUpdateAPIView):
      if not dieta:
          raise NotFound("nenhuma dieta ativa existente")
      return dieta
+ 
+class DietaCreateView(CreateAPIView):
+    permission_classes = [IsAuthenticated]
+    serializer_class = DietaSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(
+            usuario=self.request.user,
+            ativo=True,
+            calorias=0,
+            proteinas=0,
+            carboidratos=0,
+            gordura=0,
+            nome="Dieta 1"
+        )
 
 class RefeicoesView(ListCreateAPIView):
     permission_classes = [IsAuthenticated]
@@ -39,6 +54,8 @@ class RefeicoesView(ListCreateAPIView):
             usuario=self.request.user,
             ativo=True
         ).first()
+        print("USUARIO:", self.request.user)
+        print("DIETA:", dieta)
 
         if not dieta:
             raise ValidationError("Usuário não possui dieta ativa")

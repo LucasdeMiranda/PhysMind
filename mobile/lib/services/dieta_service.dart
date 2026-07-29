@@ -6,6 +6,25 @@ import 'armazenamento_token.dart';
 //ctrl + alt permite umas coisas da hora
 class DietaService {
   static const String baseurl ='http://127.0.0.1:8000/api'; //'http://192.168.0.103:8000/api';
+  
+  Future<Dieta> criaDieta(Map<String,dynamic>dados) async{
+    final token = await ArmazenamentoToken.getAcesso();
+    final resposta =await http.post(
+      Uri.parse('$baseurl/dietas/'),
+      headers: {
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json',
+      },
+      body: jsonEncode(dados),
+    );
+    if (resposta.statusCode == 201) {
+      return Dieta.fromJson(jsonDecode(resposta.body));
+    }
+    if(resposta.statusCode==400){
+       print(" se entrou aqui ta o erro e como ta a resposta ${resposta.statusCode} - ${resposta.body}");
+    }
+     throw Exception('Erro ao criar refeição');
+  }
   Future<Dieta> buscarDietaAtiva() async {
     final token = await ArmazenamentoToken.getAcesso();
     final resposta = await http.get(

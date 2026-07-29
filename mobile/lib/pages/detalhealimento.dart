@@ -106,19 +106,14 @@ class _DetalheAlimentoState extends State<DetalheAlimento> {
 
             ElevatedButton(
               onPressed: () {
-                Navigator.pop(
-                  context,
-                  ConsumoAlimento(
-                    id: widget.alimento.id,
-                    nome: widget.alimento.nome,
-                    quantidade: quantidade,
-                    calorias: calorias,
-                    proteinas: prote,
-                    carboidratos: carbo,
-                    gordura: gordura,
-                  ),
-                );
-              },
+                 final consumo = ConsumoAlimento.fromAlimento(widget.alimento);
+                consumo.quantidade = quantidade;
+                consumo.calorias = calorias;
+                consumo.carboidratos = carbo;
+                consumo.proteinas = prote;
+                consumo.gordura = gordura;
+                Navigator.pop(context, consumo);
+              },  
               child: const Text("Adicionar à refeição"),
             ),
           ],

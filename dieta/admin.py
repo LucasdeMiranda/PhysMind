@@ -8,7 +8,7 @@ from .models import ConsumoAlimento
 
 @admin.register(Dieta)
 class DietaAdmin(ImportExportModelAdmin):
-    list_display=('usuario','calorias','proteinas','carboidratos','gordura','datacriacao','ativo')
+    list_display=('usuario','nome','calorias','proteinas','carboidratos','gordura','datacriacao','ativo')
     list_filter=('datacriacao',)
     search_fields=('usuario__username',)
 
