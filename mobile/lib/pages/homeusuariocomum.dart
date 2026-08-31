@@ -11,9 +11,10 @@ import '../pages/detalhealimento.dart';
 
 class Homeusuariocomum extends StatefulWidget {
   //dois tipos de windget stateful que muda com o tempo e stateless que não muda
-  const Homeusuariocomum({super.key});
+  const Homeusuariocomum({super.key}); //contrutor da classe
 
   @override
+  //objeto state do tipo home usuario comum
   State<Homeusuariocomum> createState() => _HomeusuariocomumState(); //basicamente quando mudar usa o state e acessa a logica de homeusuarioestate
 }
 
@@ -105,22 +106,22 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                 ),
               ),
             ),
-               const SizedBox(height: 12),
-              ElevatedButton(
-                onPressed: () async {
-                  final nome = nomeController.text;
-                  if (nome.isNotEmpty) {
-                    final novaRefeicao = await _refeicaoService.criaRefeicao({
-                      'nome': nome,
-                    });
-                    setState(() {
-                      refeicoes.add(novaRefeicao);
-                      criandoRefeicao = false;
-                      nomeController.clear();
-                    });
-                  }
-                },
-                child: const Text("Criar Refeição"),
+            const SizedBox(height: 12),
+            ElevatedButton(
+              onPressed: () async {
+                final nome = nomeController.text;
+                if (nome.isNotEmpty) {
+                  final novaRefeicao = await _refeicaoService.criaRefeicao({
+                    'nome': nome,
+                  });
+                  setState(() {
+                    refeicoes.add(novaRefeicao);
+                    criandoRefeicao = false;
+                    nomeController.clear();
+                  });
+                }
+              },
+              child: const Text("Criar Refeição"),
             ),
           ],
         ],
@@ -227,7 +228,9 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                                 );
                             if (resultado != null) {
                               resultado.refeicaoId = id;
-                               await _refeicaoService.adicionarAlimento(resultado);
+                              await _refeicaoService.adicionarAlimento(
+                                resultado,
+                              );
                               await carregarRefeicoes();
                             }
                           },
@@ -244,6 +247,13 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                           title: Text(a.nome),
                           subtitle: Text(
                             "${a.quantidade}g • ${a.calorias} kcal\nC:${a.carboidratos} P:${a.proteinas} G:${a.gordura}",
+                          ),
+                          trailing: IconButton(
+                            icon: const Icon(Icons.delete_outline),
+                            onPressed: () async{
+                               await _refeicaoService.deletarAlimento(a);
+                               carregarRefeicoes();
+                            },
                           ),
                         );
                       }).toList(),
