@@ -182,6 +182,15 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                         Text("Carb: $carb  Prot: $prot  Gor: $gord"),
                       ],
                     ),
+                    Row(//botao de deletar refeições do lado de cada refeição
+                     mainAxisSize: MainAxisSize.min,
+                     children: [
+                      IconButton(icon: const Icon(Icons.delete_outline),onPressed: ()async{
+                        await _refeicaoService.deletarRefeicao(id);
+                        await carregarRefeicoes();
+                      },),
+                     ],
+                    ),
                     const Icon(Icons.expand_more),
                   ],
                 ),
