@@ -8,6 +8,7 @@ import '../services/dieta_service.dart';
 import '../services/refeicao_service.dart';
 import '../services/alimento_service.dart';
 import '../pages/detalhealimento.dart';
+import '../pages/perfil.dart';
 
 class Homeusuariocomum extends StatefulWidget {
   //dois tipos de windget stateful que muda com o tempo e stateless que não muda
@@ -182,14 +183,18 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                         Text("Carb: $carb  Prot: $prot  Gor: $gord"),
                       ],
                     ),
-                    Row(//botao de deletar refeições do lado de cada refeição
-                     mainAxisSize: MainAxisSize.min,
-                     children: [
-                      IconButton(icon: const Icon(Icons.delete_outline),onPressed: ()async{
-                        await _refeicaoService.deletarRefeicao(id);
-                        await carregarRefeicoes();
-                      },),
-                     ],
+                    Row(
+                      //botao de deletar refeições do lado de cada refeição
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        IconButton(
+                          icon: const Icon(Icons.delete_outline),
+                          onPressed: () async {
+                            await _refeicaoService.deletarRefeicao(id);
+                            await carregarRefeicoes();
+                          },
+                        ),
+                      ],
                     ),
                     const Icon(Icons.expand_more),
                   ],
@@ -259,9 +264,9 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
                           ),
                           trailing: IconButton(
                             icon: const Icon(Icons.delete_outline),
-                            onPressed: () async{
-                               await _refeicaoService.deletarAlimento(a);
-                               carregarRefeicoes();
+                            onPressed: () async {
+                              await _refeicaoService.deletarAlimento(a);
+                              carregarRefeicoes();
                             },
                           ),
                         );
@@ -284,7 +289,6 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
         children: [
           _Meta(context),
           _AdicionarRefeicao(),
-
           Padding(
             padding: const EdgeInsets.all(16),
             child: Row(
@@ -324,6 +328,54 @@ class _HomeusuariocomumState extends State<Homeusuariocomum> {
           ),
         ],
       ),
+        bottomNavigationBar: NavBar(
+        paginaAtual: 0,
+        paginaSelecionada: paginaSelecionada,
+      ),
+    );
+  }
+
+  void paginaSelecionada(int index) {
+    if (index ==0) {
+     return;// ja estou na pagina 
+    }
+  print("$index");
+    
+    if (index==1){
+      // parte das dietas
+    }
+    if (index==2){
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => PerfilPage()),
+      );
+    }
+    if (index==3){
+      // ajuste inteligente 
+    }
+     
+  }
+}
+
+class NavBar extends StatelessWidget {
+  final int paginaAtual;
+  final Function(int) paginaSelecionada;
+  const NavBar({
+    super.key,
+    required this.paginaAtual,
+    required this.paginaSelecionada,
+  });
+  @override
+  Widget build(BuildContext context) {
+    return NavigationBar(
+      selectedIndex: paginaAtual,
+      onDestinationSelected: paginaSelecionada,
+      destinations: const [
+        NavigationDestination(icon: Icon(Icons.home), label: "Home"),
+        NavigationDestination(icon: Icon(Icons.restaurant), label: "Dieta"),
+        NavigationDestination(icon: Icon(Icons.person), label: "Perfil"),
+        NavigationDestination(icon: Icon(Icons.auto_awesome), label: "Ajuste"),
+      ],
     );
   }
 }
